@@ -1,6 +1,13 @@
-import GoogleLoginButton from "../components/GoogleLoginButton";
+import GoogleLoginButton from '../components/GoogleLoginButton';
+import { signInWithPopup } from 'firebase/auth';
+import { firebaseAuth, googleAuthProvider } from '../config/firebase';
 
 const Login = () => {
+	const handleLogin = async () => {
+		const result = await signInWithPopup(firebaseAuth, googleAuthProvider);
+		console.log(result);
+	}
+
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-gray-200 py-12 px-4 sm:px-6 lg:px-8">
 			<div className="max-w-md w-full space-y-8" >
@@ -13,7 +20,7 @@ const Login = () => {
 						<h2 className="text-lg font-medium text-center text-gray-900">Faça login para continuar</h2>
 						<p className="mt-1 text-sm text-gray-600">Acesse sua conta para começar a gerenciar suas finanças</p>
 					</section>
-					<GoogleLoginButton />
+					<GoogleLoginButton onClick={handleLogin} isLoading={false} />
 					<footer className="mt-6">
 						<p className="mt-1 text-sm text-center text-gray-600">Ao fazer login, você concorda com nossos termos de uso e política de privacidade</p>
 					</footer>
