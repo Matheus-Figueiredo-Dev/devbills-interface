@@ -1,6 +1,7 @@
 import { CreditCard, List, TrendingUp, Wallet } from 'lucide-react';
 import type { JSX } from 'react';
 import Button from '../components/Button';
+import { useAuth } from '../context/AuthContext';
 
 interface Feature {
 	icon: JSX.Element;
@@ -9,6 +10,10 @@ interface Feature {
 }
 
 const Home = () => {
+	const auth = useAuth();
+
+	console.log(auth);
+
 	const features: ReadonlyArray<Feature> = [
 		{
 			icon: <Wallet className='w-8 h-8 text-primary-500' />,
