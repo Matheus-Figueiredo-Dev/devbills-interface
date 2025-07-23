@@ -8,8 +8,8 @@ const AppRoutes = () => {
 		<BrowserRouter>
 			<AuthProvider>
 				<Routes>
-					<Route path="/" element={<Login />} />
-					<Route path="/home" element={<Home />} />
+					<Route path="/" element={<Home />} />
+					<Route path="/login" element={<Login />} />
 					<Route path="*" element={<h2>Página não encontrada</h2>} />
 				</Routes>
 			</AuthProvider>

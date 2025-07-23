@@ -1,5 +1,6 @@
 import { CreditCard, List, TrendingUp, Wallet } from 'lucide-react';
 import type { JSX } from 'react';
+import { useNavigate } from 'react-router';
 import Button from '../components/Button';
 import { useAuth } from '../context/AuthContext';
 
@@ -10,6 +11,8 @@ interface Feature {
 }
 
 const Home = () => {
+	const navigate = useNavigate();
+
 	const auth = useAuth();
 
 	console.log(auth);
@@ -53,7 +56,7 @@ const Home = () => {
 							</p>
 						</div>
 						<div className='flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4'>
-							<Button className='text-center px-6 py-3'>Começar agora</Button>
+							<Button className='text-center px-6 py-3' onClick={() => navigate('/login')}>Começar agora</Button>
 						</div>
 					</div>
 				</section>
@@ -88,7 +91,7 @@ const Home = () => {
 						<p className='text-white text-opacity-90 max-w-2xl mx-auto mb-8'>Comece a usar o DevBills hoje mesmo e tenha o controle total sobre seu dinheiro.
 							É gratuito e fácil de usar!
 						</p>
-						<Button className='mx-auto px-6 py-3'>Criar conta gratuita</Button>
+						<Button className='mx-auto px-6 py-3' onClick={() => navigate('/login')}>Criar conta gratuita</Button>
 					</div>
 				</section>
 			</div>
