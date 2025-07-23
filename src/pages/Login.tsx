@@ -1,16 +1,27 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import GoogleLoginButton from '../components/GoogleLoginButton';
 import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
-	const { signInWithGoogle } = useAuth();
+	const navigate = useNavigate();
+
+	const { signInWithGoogle, authState } = useAuth();
 
 	const handleLogin = async () => {
 		try {
 			await signInWithGoogle();
-		} catch (_error) {
-
+		} catch (error) {
+			console.error('Login failed:', error);
 		}
 	}
+
+	useEffect(() => {
+		if (authState.user && !authState.loading) {
+			navigate('/dashboard');
+		}
+	}, [authState.user, authState.loading, navigate]);
+
 
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-gray-200 py-12 px-4 sm:px-6 lg:px-8">
@@ -25,6 +36,11 @@ const Login = () => {
 						<p className="mt-1 text-sm text-gray-600">Acesse sua conta para começar a gerenciar suas finanças</p>
 					</section>
 					<GoogleLoginButton onClick={handleLogin} isLoading={false} />
+					{authState.error && (
+						<div className='bg-red-50 text-center text-red-700 mt-4'>
+							<p>{authState.error} System error</p>
+						</div>
+					)}
 					<footer className="mt-6">
 						<p className="mt-1 text-sm text-center text-gray-600">Ao fazer login, você concorda com nossos termos de uso e política de privacidade</p>
 					</footer>
