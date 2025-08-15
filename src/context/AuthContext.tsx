@@ -11,7 +11,7 @@ interface AuthContextProps {
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-export const AuthProvider = ({ children } : { children: ReactNode }) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const [authState, setAuthState] = useState<AuthState>({
 		user: null,
 		error: null,
@@ -20,7 +20,8 @@ export const AuthProvider = ({ children } : { children: ReactNode }) => {
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
-			if(user) {
+			console.log(user);
+			if (user) {
 				setAuthState({
 					user: {
 						uid: user.uid,
@@ -32,39 +33,39 @@ export const AuthProvider = ({ children } : { children: ReactNode }) => {
 					loading: false
 				})
 			} else {
-				setAuthState({user: null, error: null, loading: false});
+				setAuthState({ user: null, error: null, loading: false });
 			}
 		}, (error) => {
 			console.error('Auth state change error:', error);
-			setAuthState({user: null, error: error.message, loading: false});
+			setAuthState({ user: null, error: error.message, loading: false });
 		}
-	);
+		);
 		return () => unsubscribe()
 	}, [])
-	
 
-	const signInWithGoogle = async ():Promise<void> => {
-		setAuthState((prev) => ({...prev, loading: true, error: null}));
+
+	const signInWithGoogle = async (): Promise<void> => {
+		setAuthState((prev) => ({ ...prev, loading: true, error: null }));
 		try {
 			await signInWithPopup(firebaseAuth, googleAuthProvider)
 		} catch (error) {
 			console.error('Google sign-in error:', error);
-			setAuthState((prev) => ({...prev, loading: false, error: (error as Error).message}))
+			setAuthState((prev) => ({ ...prev, loading: false, error: (error as Error).message }))
 		}
 	};
 
 	const signOut = async (): Promise<void> => {
-		setAuthState((prev) => ({...prev, loading: true, error: null}));
+		setAuthState((prev) => ({ ...prev, loading: true, error: null }));
 		try {
 			await firebaseSignOut(firebaseAuth);
 		} catch (error) {
 			console.error('Google sign-in error:', error);
-			setAuthState((prev) => ({...prev, loading: false, error: (error as Error).message}))
+			setAuthState((prev) => ({ ...prev, loading: false, error: (error as Error).message }))
 		}
 	}
 
 	return (
-		<AuthContext.Provider value={{authState, signInWithGoogle, signOut}}>
+		<AuthContext.Provider value={{ authState, signInWithGoogle, signOut }}>
 			{children}
 		</AuthContext.Provider>
 	);
