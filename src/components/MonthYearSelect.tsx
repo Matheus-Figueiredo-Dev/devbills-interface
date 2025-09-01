@@ -59,7 +59,7 @@ const MonthYearSelect = ({ month, onMonthChange, year, onYearChange }: MonthYear
 					value={month}
 					onChange={(e) => onMonthChange(Number(e.target.value))}
 					id="month-select"
-					className="bg-gray-800 border border-gray-700 rounded-md py-1 px-3 text-sm font-medium text-gray-100 focus: outline-none focus: ring-2 focus: ring-primary-500 cursor-pointer">
+					className="bg-gray-800 border border-gray-700 rounded-md py-1 px-3 text-sm font-medium text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 cursor-pointer">
 					{monthNames.map((name, index) => (
 						<option
 							key={name}
@@ -73,7 +73,7 @@ const MonthYearSelect = ({ month, onMonthChange, year, onYearChange }: MonthYear
 					value={year}
 					onChange={(e) => onYearChange(Number(e.target.value))}
 					id="year-select"
-					className="bg-gray-800 border border-gray-700 rounded-md py-1 px-3 text-sm font-medium text-gray-100 focus: outline-none focus: ring-2 focus: ring-primary-500 cursor-pointer">
+					className="bg-gray-800 border border-gray-700 rounded-md py-1 px-3 text-sm font-medium text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 cursor-pointer">
 					{years.map((name) => (
 						<option
 							key={name}

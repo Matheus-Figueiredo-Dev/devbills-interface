@@ -14,7 +14,7 @@ const Card = ({ children, className = "", glowEffect = false, hover = false, ico
 			className={
 				`
 				bg-gray-900 rounded-xl border border-gray-700 shadow-md p-6 transition-all
-				${hover ? "hover: border-primary-500 hover: shadow-lg hover:-translate-y-0.5 cursor-pointer" : ""}
+				${hover ? "hover:border-primary-500 hover: shadow-lg hover:-translate-y-0.5 cursor-pointer" : ""}
 				${glowEffect ? "glow" : ""}
 				${className}
 				`

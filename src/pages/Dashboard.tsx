@@ -1,5 +1,7 @@
-import { ArrowUp, Wallet } from "lucide-react";
+import { ArrowUp, TrendingUp, Wallet } from "lucide-react";
 import { useEffect, useState, } from "react";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import type { PieLabelProps } from "recharts/types/polar/Pie";
 import Card from "../components/Card";
 import MonthYearSelect from "../components/MonthYearSelect";
 import { getTransactionSummary } from "../services/transactionService";
@@ -28,6 +30,15 @@ const Dashboard = () => {
 		}
 		loadTransactionsSummary();
 	}, [month, year]);
+
+	const renderPieChatLabel = ({ categoryName, percent }: PieLabelProps): string => {
+		const percentValue = percent !== undefined ? percent : 0;
+		return `${categoryName}: ${(percentValue * 100).toFixed(1)}%`;
+	};
+
+	const formatToolTipValue = (value: number | string): string => {
+		return formatCurrency(typeof value === "number" ? value : 0);
+	};
 
 	return (
 		<div className="container-app py-6">
@@ -64,6 +75,43 @@ const Dashboard = () => {
 					>
 						{formatCurrency(summary.totalExpenses)}
 					</p>
+				</Card>
+			</div>
+
+			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 mt-3">
+				<Card
+					icon={<TrendingUp size={20} className="text-primary-500" />}
+					title="Despesas por Categoria"
+					className="min-h-80">
+					{summary.expensesByCategory.length > 0 ? (
+						<div className="h-72 mt-4">
+							<ResponsiveContainer>
+								<PieChart>
+									<Pie
+										data={summary.expensesByCategory}
+										cx="50%"
+										cy="50%"
+										outerRadius={80}
+										dataKey="amount"
+										nameKey="categoryName"
+										label={renderPieChatLabel}
+									>
+										{summary.expensesByCategory.map(entry => (
+											<Cell
+												key={entry.categoryId}
+												fill={entry.categoryColor}
+											/>
+										))}
+									</Pie>
+									<Tooltip formatter={formatToolTipValue} />
+								</PieChart>
+							</ResponsiveContainer>
+						</div>
+					) : (
+						<div className="flex items-center justify-center h-64 text-gray-500">
+							Nenhuma despesa registrada no período.
+						</div>
+					)}
 				</Card>
 			</div>
 		</div>
