@@ -1,5 +1,5 @@
 import { AlertCircle, ArrowDown, ArrowUp, Plus, Search, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { Link } from "react-router";
 import Button from "../components/Button";
 import Card from "../components/Card";
@@ -18,15 +18,17 @@ const Transactions = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string>("");
 	const [transactions, setTransactions] = useState<Transaction[]>([]);
+	const [filteredTransactions, setfilteredTransactions] = useState<Transaction[]>([]);
 	const [deleteId, setDeleteId] = useState<string>("");
+	const [searchTerm, setSearchTerm] = useState<string>("");
 
 	const fetchTransactions = async (): Promise<void> => {
 		try {
-			setLoading(false);
+			setLoading(true);
 			setError("");
-
 			const data = await getTransactions({ month, year });
 			setTransactions(data);
+			setfilteredTransactions(data);
 		} catch (err) {
 			setError("Erro ao carregar transações. Tente novamente mais tarde!");
 		} finally {
@@ -58,11 +60,16 @@ const Transactions = () => {
 	}
 
 	useEffect(() => {
-
 		fetchTransactions();
-	}, [fetchTransactions]);
+	}, [month, year]);
 
-
+	const handleSearchChange = (e: ChangeEvent<HTMLInputElement>): void => {
+		setSearchTerm(e.target.value);
+		setfilteredTransactions(transactions.filter(transaction =>
+			transaction.description?.toUpperCase().includes(e.target.value.toUpperCase()),
+		),
+		);
+	}
 	return (
 		<div className="container-app py-6">
 			<div className="flex flex-col md:flex-row justify-between items-start md:items-center mb:6">
@@ -83,6 +90,8 @@ const Transactions = () => {
 					placeholder="Buscar transações..."
 					icon={<Search className="w-4 h-4" />}
 					fullWidth
+					onChange={handleSearchChange}
+					value={searchTerm}
 				/>
 			</Card>
 			<Card className="overflow-hidden">
@@ -141,7 +150,7 @@ const Transactions = () => {
 								</tr>
 							</thead>
 							<tbody className="divide-y divide-gray-700">
-								{transactions.map((transaction) => (
+								{filteredTransactions.map((transaction) => (
 									<tr key={transaction.id} className="hover:bg-gray-800">
 										<td className="px-3 py-4 text-gray-400 whitespace-nowrap">
 											<div className="flex items-center">
