@@ -5,9 +5,10 @@ import Button from "../components/Button";
 import Card from "../components/Card";
 import Input from "../components/Input";
 import MonthYearSelect from "../components/MonthYearSelect";
-import { getTransactions } from "../services/transactionService";
+import { deleteTransaction, getTransactions } from "../services/transactionService";
 import { TransactionType, type Transaction } from "../types/transactions";
 import { formatCurrency, formatDate } from "../utils/formatters";
+import { toast } from "react-toastify";
 
 const Transactions = () => {
 	const currentDate = new Date();
@@ -33,7 +34,28 @@ const Transactions = () => {
 		}
 	};
 
-	const handleDelete = (id: string): void => { }
+	const handleDelete = async (id: string): Promise<void> => {
+		try {
+			setDeleteId(id);
+
+			await deleteTransaction(id);
+
+			toast.success("Transação excluída com sucesso!");
+
+			setTransactions((prev) => prev.filter((transaction) => transaction.id !== id));
+		} catch (error) {
+			console.error(error);
+			toast.error("Falha ao excluir transação. Tente novamente mais tarde!");
+		} finally {
+			setDeleteId("");
+		}
+	}
+
+	const confirmDelete = (id: string): void => {
+		if (window.confirm("Tem certeza que deseja excluir esta transação?")) {
+			handleDelete(id);
+		}
+	}
 
 	useEffect(() => {
 
@@ -88,7 +110,7 @@ const Transactions = () => {
 					</div>
 				) : (
 					<div className="overflow-x-auto">
-						<table className="divide-y divide-gray-700 min-h-full">
+						<table className="divide-y divide-gray-700 min-h-full w-full">
 							<thead>
 								<tr>
 									<th
@@ -121,7 +143,7 @@ const Transactions = () => {
 							<tbody className="divide-y divide-gray-700">
 								{transactions.map((transaction) => (
 									<tr key={transaction.id} className="hover:bg-gray-800">
-										<td className="px-6 py-4 text-gray-400 whitespace-nowrap">
+										<td className="px-3 py-4 text-gray-400 whitespace-nowrap">
 											<div className="flex items-center">
 												<div className="mr-2">
 													{transaction.type === TransactionType.INCOME ? (
@@ -135,10 +157,10 @@ const Transactions = () => {
 												</span>
 											</div>
 										</td>
-										<td className="px-6 py-4 text-gray-400 whitespace-nowrap">
+										<td className="px-3 py-4 text-gray-400 whitespace-nowrap">
 											{formatDate(transaction.date)}
 										</td>
-										<td className="px-6 py-4 text-gray-400 whitespace-nowrap">
+										<td className="px-3 py-4 text-gray-400 whitespace-nowrap">
 											<div className="flex items-center">
 												<div
 													className="w-2 h-2 rounded-full mr-2"
@@ -147,17 +169,17 @@ const Transactions = () => {
 												<span className="text-sm text-gray-400">{transaction.category.name}</span>
 											</div>
 										</td>
-										<td className="px-6 py-4 text-gray-400 whitespace-nowrap">
+										<td className="px-3 py-4 text-gray-400 whitespace-nowrap">
 											<span
 												className={`${transaction.type === TransactionType.INCOME ? "text-primary-500" : "text-red-500"}`}>
 												{formatCurrency(transaction.amount)}
 											</span>
 										</td>
-										<td className="px-6 py-4 text-gray-400 whitespace-nowrap">
+										<td className="px-3 py-4 text-gray-400 whitespace-nowrap">
 											<button
 												className="hover:text-gray-300 rounded-full cursor-pointer"
 												type="button"
-												onClick={() => handleDelete(transaction.id)}
+												onClick={() => confirmDelete(transaction.id)}
 												disabled={deleteId === transaction.id}
 											>
 												{deleteId === transaction.id ? (
