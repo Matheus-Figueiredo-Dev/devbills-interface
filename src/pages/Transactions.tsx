@@ -1,14 +1,14 @@
 import { AlertCircle, ArrowDown, ArrowUp, Plus, Search, Trash2 } from "lucide-react";
-import { useEffect, useState, type ChangeEvent } from "react";
+import { type ChangeEvent, useEffect, useState } from "react";
 import { Link } from "react-router";
+import { toast } from "react-toastify";
 import Button from "../components/Button";
 import Card from "../components/Card";
 import Input from "../components/Input";
 import MonthYearSelect from "../components/MonthYearSelect";
 import { deleteTransaction, getTransactions } from "../services/transactionService";
-import { TransactionType, type Transaction } from "../types/transactions";
+import { type Transaction, TransactionType } from "../types/transactions";
 import { formatCurrency, formatDate } from "../utils/formatters";
-import { toast } from "react-toastify";
 
 const Transactions = () => {
 	const currentDate = new Date();
@@ -29,7 +29,7 @@ const Transactions = () => {
 			const data = await getTransactions({ month, year });
 			setTransactions(data);
 			setfilteredTransactions(data);
-		} catch (err) {
+		} catch (_err) {
 			setError("Erro ao carregar transações. Tente novamente mais tarde!");
 		} finally {
 			setLoading(false);
@@ -59,6 +59,7 @@ const Transactions = () => {
 		}
 	}
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: false positive
 	useEffect(() => {
 		fetchTransactions();
 	}, [month, year]);
