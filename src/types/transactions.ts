@@ -21,6 +21,14 @@ export interface Transaction {
 	updatedAt: string | Date;
 }
 
+export interface CreateTransactionDTO {
+	description: string;
+	amount: number;
+	date: string | Date;
+	categoryId: string;
+	type: TransactionType;
+}
+
 export interface TransactionFilter {
 	month: number;
 	year: number;

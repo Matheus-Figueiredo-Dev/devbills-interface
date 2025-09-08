@@ -1,14 +1,16 @@
 import { AlertCircle, Calendar, DollarSign, Save, Tag } from "lucide-react";
 import { type ChangeEvent, type FormEvent, useEffect, useId, useState } from "react";
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
+import Button from "../components/Button";
 import Card from "../components/Card";
 import Input from "../components/Input";
 import Select from "../components/Select";
 import TransactionSelector from "../components/TransactionSelector";
 import { getCategories } from "../services/categoryService";
+import { createTransaction } from "../services/transactionService";
 import type { Category } from "../types/category";
-import { TransactionType } from "../types/transactions";
-import Button from "../components/Button";
-import { useNavigate } from "react-router";
+import { type CreateTransactionDTO, TransactionType } from "../types/transactions";
 
 interface FormData {
 	description: string;
@@ -63,7 +65,6 @@ const TransactionsForm = () => {
 			return false;
 		}
 		return true;
-		setErrorMessage(null);
 	};
 
 	const handleSubmit = async (e: FormEvent): Promise<void> => {
@@ -73,8 +74,21 @@ const TransactionsForm = () => {
 			if (!validadeForm()) {
 				return;
 			}
-		} catch (error) {
 
+			const transactionData: CreateTransactionDTO = {
+				description: formData.description,
+				amount: formData.amount,
+				categoryId: formData.categoryId,
+				type: formData.type,
+				date: new Date(formData.date).toISOString(),
+			};
+
+			await createTransaction(transactionData);
+			toast.success("Transação criada com sucesso!");
+			navigate("/transacoes");
+
+		} catch (_error) {
+			toast.error("Erro ao criar transação. Tente novamente mais tarde!");
 		}
 	};
 

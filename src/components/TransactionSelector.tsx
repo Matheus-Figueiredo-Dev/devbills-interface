@@ -11,7 +11,7 @@ const TransactionSelector = ({ value, id, onChange }: TransactionSelectorProps) 
 		{
 			type: TransactionType.EXPENSE,
 			label: "Despesa",
-			activeClass: "bg-red-500 border-red-500 text-red-600 font-medium",
+			activeClass: "bg-red-100 border-red-500 text-red-600 font-medium",
 			inativeClass: "bg-transparent border-red-300 text-red-500 hover:bg-red-50",
 		},
 		{
