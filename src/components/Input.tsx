@@ -6,9 +6,10 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	label?: string;
 	error?: string;
 	id?: string;
+	hasError?: boolean;
 }
 
-const Input = ({ icon, fullWidth, label, error, id, className, ...rest }: InputProps) => {
+const Input = ({ icon, fullWidth, label, error, id, hasError, className, ...rest }: InputProps) => {
 	const generatedId = useId();
 	const inputId = id || generatedId;
 
@@ -36,6 +37,7 @@ const Input = ({ icon, fullWidth, label, error, id, className, ...rest }: InputP
 						: "focus:border-primary-500 focus:ring-primary-500/2"}
 					${icon ? "pl-10" : ""}
 					${className}
+					${hasError ? "border-red-500" : ""}
 					`}
 				{...rest}
 			/>

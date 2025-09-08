@@ -29,7 +29,8 @@ const initialFormData = {
 const TransactionsForm = () => {
 	const [categories, setCategories] = useState<Category[]>([]);
 	const [formData, setFormData] = useState<FormData>(initialFormData);
-	const [error, setError] = useState<string | null>(null);
+	const [error, setError] = useState<{ [key: string]: boolean }>({});
+	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
 	const navigate = useNavigate();
 
@@ -47,19 +48,22 @@ const TransactionsForm = () => {
 
 	const filteredCategories = categories.filter((category) => category.type === formData.type);
 	const validadeForm = (): boolean => {
-		if (!formData.description || !formData.amount || !formData.date || !formData.categoryId) {
-			setError("Preencha todos os campos!");
+		const newErrors: { [key: string]: boolean } = {};
+
+		if (!formData.description) newErrors.description = true;
+		if (!formData.amount) newErrors.amount = true;
+		if (!formData.date) newErrors.date = true;
+		if (!formData.categoryId) newErrors.categoryId = true;
+
+		setError(newErrors);
+
+		if (Object.keys(newErrors).length > 0) {
+			setErrorMessage("Preencha todos os campos!");
 
 			return false;
 		}
-
-		if (formData.amount <= 0) {
-			setError("O valor da transação deve ser maior que zero!");
-
-			return false;
-		}
-
 		return true;
+		setErrorMessage(null);
 	};
 
 	const handleSubmit = async (e: FormEvent): Promise<void> => {
@@ -93,10 +97,10 @@ const TransactionsForm = () => {
 			<div className="max-w-2xl mx-auto">
 				<h1 className="text-2xl font-bold mb-6">Nova transação</h1>
 				<Card>
-					{error && (
+					{errorMessage !== null && errorMessage !== "" && (
 						<div className="flex items-center bg-red-300 border-red-700 rounded-xl p-4 mb-6 gap-2">
 							<AlertCircle className="w-5 h-5 text-red-700" />
-							<p className="text-red-700">{error}</p>
+							<p className="text-red-700">{errorMessage}</p>
 						</div>
 					)}
 					<form onSubmit={handleSubmit}>
@@ -113,6 +117,7 @@ const TransactionsForm = () => {
 							name="description"
 							value={formData.description}
 							onChange={handleChange}
+							hasError={error.description}
 							placeholder="Ex: Supermecado, Salário, etc..." />
 						<Input
 							label="Valor"
@@ -121,6 +126,7 @@ const TransactionsForm = () => {
 							step="0.01"
 							value={formData.amount}
 							onChange={handleChange}
+							hasError={error.amount}
 							placeholder="R$0,00"
 							icon={<DollarSign className="w-4 h-4" />} />
 						<Input
@@ -129,6 +135,7 @@ const TransactionsForm = () => {
 							type="date"
 							value={formData.date}
 							onChange={handleChange}
+							hasError={error.date}
 							icon={<Calendar className="w-4 h-4" />} />
 						<Select
 							label="Categoria"
@@ -136,6 +143,7 @@ const TransactionsForm = () => {
 							value={formData.categoryId}
 							onChange={handleChange}
 							icon={<Tag className="w-4 h-4" />}
+							hasError={error.categoryId}
 							options={[
 								{ value: "", label: "Selecione uma categoria" },
 								...filteredCategories.map((category) => ({

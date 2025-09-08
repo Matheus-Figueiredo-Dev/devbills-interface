@@ -11,9 +11,10 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 	icon?: ReactNode;
 	fullWidth?: boolean;
 	options?: selectOption[];
+	hasError?: boolean;
 }
 
-const Select = ({ label, options = [], icon, error, fullWidth = true, className = "", id, ...rest }: SelectProps) => {
+const Select = ({ label, options = [], icon, error, fullWidth = true, className = "", id, hasError, ...rest }: SelectProps) => {
 	const selectId = useId();
 
 	return (
@@ -33,7 +34,8 @@ const Select = ({ label, options = [], icon, error, fullWidth = true, className 
 					id={selectId} {...rest}
 					className={`block w-full bg-gray-800 py-3 pl-10 pr-4 rounded-xl text-gray-50 text-sm outline-none
 					border ${error ? "border-red-500" : "border-gray-700"} appearance-none
-					${error ? "focus:border-red-500" : "focus:border-primary-500"}`}>
+					${error ? "focus:border-red-500" : "focus:border-primary-500"}
+					${hasError ? "border-red-500" : ""}`}>
 					{options.map(option => (
 						<option key={option.value} value={option.value}>
 							{option.label}
