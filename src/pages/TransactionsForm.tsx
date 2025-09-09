@@ -33,6 +33,7 @@ const TransactionsForm = () => {
 	const [formData, setFormData] = useState<FormData>(initialFormData);
 	const [error, setError] = useState<{ [key: string]: boolean }>({});
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
+	const [loading, setLoading] = useState<boolean>(false);
 
 	const navigate = useNavigate();
 
@@ -69,6 +70,7 @@ const TransactionsForm = () => {
 
 	const handleSubmit = async (e: FormEvent): Promise<void> => {
 		e.preventDefault();
+		setLoading(true);
 
 		try {
 			if (!validadeForm()) {
@@ -80,7 +82,7 @@ const TransactionsForm = () => {
 				amount: formData.amount,
 				categoryId: formData.categoryId,
 				type: formData.type,
-				date: new Date(formData.date).toISOString(),
+				date: `${formData.date}T12:00:00.000Z`,
 			};
 
 			await createTransaction(transactionData);
@@ -89,6 +91,8 @@ const TransactionsForm = () => {
 
 		} catch (_error) {
 			toast.error("Erro ao criar transação. Tente novamente mais tarde!");
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -166,11 +170,22 @@ const TransactionsForm = () => {
 								}))
 							]} />
 						<div className="flex justify-end space-x-3 mt-2">
-							<Button className="" variant="outline" onClick={handleCancel} type="button">
+							<Button className=""
+								variant="outline"
+								onClick={handleCancel}
+								type="button"
+								disabled={loading}>
 								Cancelar
 							</Button>
-							<Button type="submit" variant={formData.type === TransactionType.EXPENSE ? "danger" : "success"}>
-								<Save className="w-4 h-4 mr-2" />
+							<Button
+								type="submit"
+								variant={formData.type === TransactionType.EXPENSE ? "danger" : "success"}
+								disabled={loading}>
+								{loading ? (
+									<div className="flex items-center justify-center">
+										<div className="animate-spin h-4 w-4 border-4 border-gray-700 border-t-transparent rounded-full"></div>
+									</div>
+								) : <Save className="w-4 h-4 mr-2" />}
 								Salvar
 							</Button>
 						</div>

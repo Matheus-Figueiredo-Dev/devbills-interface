@@ -44,7 +44,7 @@ const Transactions = () => {
 
 			toast.success("Transação excluída com sucesso!");
 
-			setTransactions((prev) => prev.filter((transaction) => transaction.id !== id));
+			setfilteredTransactions((prev) => prev.filter((transaction) => transaction.id !== id));
 		} catch (error) {
 			console.error(error);
 			toast.error("Falha ao excluir transação. Tente novamente mais tarde!");
