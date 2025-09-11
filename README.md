@@ -28,13 +28,21 @@ https://devbills-interface.onrender.com
 
 📸 Demonstração
 
-👉 Aqui você pode adicionar prints ou gifs do sistema funcionando:
-
 Tela de login
+
+<img width="1337" height="640" alt="Captura de tela 2025-09-11 151921" src="https://github.com/user-attachments/assets/43f1e808-4512-4b2e-bda6-507d707ded18" />
 
 Dashboard com gráficos
 
+<img width="1342" height="642" alt="Captura de tela 2025-09-11 152004" src="https://github.com/user-attachments/assets/677b5329-f32b-4c6c-b086-cca5fe49dd83" />
+
 Tela de transações
+
+<img width="1339" height="639" alt="Captura de tela 2025-09-11 152018" src="https://github.com/user-attachments/assets/aa91173c-1837-4e60-829d-05f46bcda1af" />
+
+Tela de adicionar transações
+
+<img width="1334" height="634" alt="Captura de tela 2025-09-11 152036" src="https://github.com/user-attachments/assets/86362f82-8286-4d60-ac54-bdbd6ffb9d80" />
 
 ## ⚙️ Instalação e uso  
 
