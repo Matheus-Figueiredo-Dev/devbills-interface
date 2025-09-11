@@ -30,7 +30,7 @@ const Home = () => {
 		},
 		{
 			icon: <List className='w-8 h-8 text-primary-500' />,
-			title: 'Controle financeiro',
+			title: 'Categorias personalizadas',
 			description: 'Organize suas transações em categorias para melhor análise.',
 		},
 		{
