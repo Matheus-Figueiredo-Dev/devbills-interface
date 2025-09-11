@@ -1,69 +1,68 @@
-# React + TypeScript + Vite
+📊 DevBills
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+O DevBills é um sistema de gerenciamento de finanças desenvolvido para ajudar usuários a acompanhar receitas e despesas de forma simples e visual.
+Com ele, você pode registrar transações, visualizar relatórios interativos e comparar o histórico financeiro dos últimos meses.
 
-Currently, two official plugins are available:
+🚀 Funcionalidades
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🔑 Autenticação com Google via Firebase;
+➕ Adicionar transações (receitas ou despesas);
+❌ Excluir transações existentes;
+📅 Visualizar relatórios mensais (mês atual + meses anteriores);
+🥧 Gráfico em pizza para acompanhar distribuição das despesas;
+📊 Gráfico em barras com histórico de receitas e despesas (mês atual + 3 anteriores);
+📜 Lista detalhada de transações com opção de navegação por meses anteriores;
 
-## Expanding the ESLint configuration
+🛠️ Tecnologias
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+React;
+Vite;
+Axios;
+Styled-components;
+Hooks (useState, useEffect, useRef, useNavigate);
+Firebase (autenticação);
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+🌐 Deploy
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+https://devbills-interface.onrender.com
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+📸 Demonstração
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+👉 Aqui você pode adicionar prints ou gifs do sistema funcionando:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Tela de login
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Dashboard com gráficos
+
+Tela de transações
+
+## ⚙️ Instalação e uso  
+
+### 🔹 Preparar o back-end  
+Antes de rodar o front-end, é necessário configurar e iniciar o back-end do projeto.  
+👉 Siga as instruções no repositório: [DevBills-api](https://github.com/Matheus-Figueiredo-Dev/DevBills-api)  
+
+---
+
+### 🔹 Rodar o front-end  
+1. Clone este repositório:  
+   ```bash
+   git clone https://github.com/Matheus-Figueiredo-Dev/devbills-interface.git
+  
+Instale as dependências:
+
+bash
+Copiar código
+yarn
+Configure o arquivo .env com suas credenciais do Firebase.
+
+Inicie a aplicação:
+
+bash
+Copiar código
+yarn dev
+
+
+👨‍💻 Autor
+
+Desenvolvido por Matheus Figueiredo
